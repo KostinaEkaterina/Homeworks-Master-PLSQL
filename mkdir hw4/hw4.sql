@@ -23,11 +23,11 @@ declare
   v_current_dtime date := sysdate;
 begin
   if v_payment_id is null then
-	dbms_output.put_line ('ID объекта не может быть пустым');
+    dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
   if v_reason is null then
-	dbms_output.put_line ('Причина не может быть пустой');
+    dbms_output.put_line ('Причина не может быть пустой');
   end if;
   
   dbms_output.put_line (v_message || '. Статус: '|| c_error_status ||'. Причина: ' || v_reason || '. ID: ' || v_payment_id);
@@ -43,11 +43,11 @@ declare
   v_current_dtime date := sysdate;
 begin
   if v_payment_id is null then
-	dbms_output.put_line ('ID объекта не может быть пустым');
+    dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
   if v_reason is null then
-	dbms_output.put_line ('Причина не может быть пустой');
+    dbms_output.put_line ('Причина не может быть пустой');
   end if;
   
   dbms_output.put_line (v_message || '. Статус: ' || c_cancel_status|| '. Причина: ' || v_reason || '. ID: ' || v_payment_id);
@@ -62,7 +62,7 @@ declare
   v_current_dtime date := sysdate;
 begin
   if v_payment_id is null then
-	dbms_output.put_line ('ID объекта не может быть пустым');
+    dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
   dbms_output.put_line (v_message || '. Статус: ' || c_success_status);
@@ -76,7 +76,7 @@ declare
   v_current_dtime timestamp := systimestamp;
 begin
   if v_payment_id is null then
-	dbms_output.put_line ('ID объекта не может быть пустым');
+    dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
   dbms_output.put_line (v_message || '. ID: ' || v_payment_id);
@@ -90,7 +90,7 @@ declare
   v_current_dtime timestamp := systimestamp;
 begin
   if v_payment_id is null then
-	dbms_output.put_line ('ID объекта не может быть пустым');
+    dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
   dbms_output.put_line (v_message || '. ID: ' || v_payment_id);
