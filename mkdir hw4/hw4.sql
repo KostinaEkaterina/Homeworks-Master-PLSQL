@@ -11,7 +11,7 @@ declare
   v_current_dtime date := sysdate;
   v_payment_detail t_payment_detail_array:= t_payment_detail_array(t_payment_detail(1,'Тестовый софт'),
                                             t_payment_detail(2,'66.250.68.32'),
-                                            t_payment_detail(3,'Обновление'));
+                                            t_payment_detail(3,'Создание'));
 begin
   dbms_output.put_line (v_message || '. Статус: ' || c_new_status || '. ID: ' || v_payment_id);
   dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
