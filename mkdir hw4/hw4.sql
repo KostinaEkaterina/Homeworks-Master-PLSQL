@@ -10,8 +10,8 @@ declare
   c_new_status constant payment.status%type := 0;
   v_current_dtime date := sysdate;
   v_payment_detail t_payment_detail_array:= t_payment_detail_array(t_payment_detail(1,'Тестовый софт'),
-                                            t_payment_detail(2,'66.250.68.32'),
-                                            t_payment_detail(3,'Создание'));
+                                                                   t_payment_detail(2,'66.250.68.32'),
+                                                                   t_payment_detail(3,'Создание'));
 begin
   dbms_output.put_line (v_message || '. Статус: ' || c_new_status || '. ID: ' || v_payment_id);
   dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
@@ -78,7 +78,7 @@ declare
   v_message varchar2(200 char) := 'Данные платежа добавлены или обновлены по списку id_поля/значение';
   v_current_dtime timestamp := systimestamp;
   v_payment_detail t_payment_detail_array:= t_payment_detail_array(t_payment_detail(2,'66.250.68.32'),
-                                            t_payment_detail(3,'Обновление'));
+                                                                   t_payment_detail(3,'Обновление'));
 begin
   if v_payment_id is null then
     dbms_output.put_line ('ID объекта не может быть пустым');
