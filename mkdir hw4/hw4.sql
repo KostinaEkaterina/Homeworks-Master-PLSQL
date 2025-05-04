@@ -13,6 +13,25 @@ declare
                                                                    t_payment_detail(2,'66.250.68.32'),
                                                                    t_payment_detail(3,'Создание'));
 begin
+  
+  if v_payment_detail is not empty then
+  
+    for i in v_payment_detail.first..v_payment_detail.last loop 
+	
+      if (v_payment_detail(i).field_id is null) then
+        dbms_output.put_line ('ID поля не может быть пустым');
+      end if;
+	
+      if (v_payment_detail(i).field_value is null) then
+        dbms_output.put_line ('Значение в поле не может быть пустым');
+      end if;
+		 
+    end loop;
+   
+  else
+    dbms_output.put_line ('Коллекция не содержит данных');
+  end if;
+  
   dbms_output.put_line (v_message || '. Статус: ' || c_new_status || '. ID: ' || v_payment_id);
   dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
 end;
@@ -84,6 +103,24 @@ begin
     dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
   
+  if v_payment_detail is not empty then
+  
+    for i in v_payment_detail.first..v_payment_detail.last loop 
+	
+      if (v_payment_detail(i).field_id is null) then
+        dbms_output.put_line ('ID поля не может быть пустым');
+      end if;
+	
+      if (v_payment_detail(i).field_value is null) then
+        dbms_output.put_line ('Значение в поле не может быть пустым');
+      end if;
+		 
+    end loop;
+   
+  else
+    dbms_output.put_line ('Коллекция не содержит данных');
+  end if;
+  
   dbms_output.put_line (v_message || '. ID: ' || v_payment_id);
   dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss.ff'));
 end;
@@ -98,8 +135,13 @@ begin
   if v_payment_id is null then
     dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
+
+  if v_delete_detail_ids is empty then
+    dbms_output.put_line ('Коллекция не содержит данных');
+  end if;
   
   dbms_output.put_line (v_message || '. ID: ' || v_payment_id);
   dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss.ff'));
+  dbms_output.put_line ('Количество полей для удаления: ' || v_delete_detail_ids.count());
 end;
 /
