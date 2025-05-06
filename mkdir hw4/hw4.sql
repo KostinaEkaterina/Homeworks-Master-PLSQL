@@ -78,13 +78,13 @@ begin
  
   --если статус - создан, то производим обновление статуса
   if v_current_status = 0 then
-	  --обновление статуса платежа
-	  update payment p 
-	  set p.status = c_error_status,
-	  		p.status_change_reason  = v_reason
-	  where p.payment_id = v_payment_id;
+    --обновление статуса платежа
+    update payment p 
+    set p.status = c_error_status,
+        p.status_change_reason  = v_reason
+    where p.payment_id = v_payment_id;
 	 
-	  dbms_output.put_line (v_message || '. Статус: '|| c_error_status ||'. Причина: ' || v_reason || '. ID: ' || v_payment_id);
+    dbms_output.put_line (v_message || '. Статус: '|| c_error_status ||'. Причина: ' || v_reason || '. ID: ' || v_payment_id);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
   else 
     dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || v_payment_id);
@@ -116,13 +116,13 @@ begin
  
   --если статус - создан, то производим обновление статуса
   if v_current_status = 0 then
-	  --обновление статуса платежа
-	  update payment p 
-	  set p.status = c_cancel_status,
-	  		p.status_change_reason  = v_reason
-	  where p.payment_id = v_payment_id;
+    --обновление статуса платежа
+    update payment p 
+    set p.status = c_cancel_status,
+        p.status_change_reason  = v_reason
+    where p.payment_id = v_payment_id;
 	 
-  	dbms_output.put_line (v_message || '. Статус: ' || c_cancel_status|| '. Причина: ' || v_reason || '. ID: ' || v_payment_id);
+    dbms_output.put_line (v_message || '. Статус: ' || c_cancel_status|| '. Причина: ' || v_reason || '. ID: ' || v_payment_id);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
   else 
     dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || v_payment_id);
@@ -148,12 +148,12 @@ begin
  
   --если статус - создан, то производим обновление статуса
   if v_current_status = 0 then
-	  --обновление статуса платежа
-	  update payment p 
-	  set p.status = c_success_status
-	  where p.payment_id = v_payment_id;
+    --обновление статуса платежа
+    update payment p 
+    set p.status = c_success_status
+    where p.payment_id = v_payment_id;
 	 
-  	dbms_output.put_line (v_message || '. Статус: ' || c_success_status);
+    dbms_output.put_line (v_message || '. Статус: ' || c_success_status);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
   else 
     dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || v_payment_id);
@@ -195,15 +195,15 @@ begin
  
   merge into payment_detail pd 
   using (select v_payment_id payment_id,
-  			        value(p).field_id field_id,
-  			        value(p).field_value field_value
-  			 from table(v_payment_detail) p ) n
+                value(p).field_id field_id,
+                value(p).field_value field_value
+         from table(v_payment_detail) p ) n
   	on (pd.payment_id = n.payment_id and pd.field_id = n.field_id)
   when matched then 
-  	update set pd.field_value = n.field_value
+    update set pd.field_value = n.field_value
   when not matched then 
-  	insert (payment_id,field_id,field_value)
-  	values (n.payment_id, n.field_id, n.field_value);
+    insert (payment_id,field_id,field_value)
+    values (n.payment_id, n.field_id, n.field_value);
   							
 end;
 /
