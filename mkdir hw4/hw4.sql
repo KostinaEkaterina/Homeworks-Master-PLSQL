@@ -8,7 +8,7 @@ declare
   v_payment_id  payment.payment_id%type;
   v_message varchar2(200 char) := 'Платеж создан';
   c_new_status constant payment.status%type := 0;
-  v_current_dtime date := sysdate;
+  v_current_dtime date := systimestamp;
   v_summa payment.summa%type := 5000;
   v_currency_id payment.currency_id%type := 643;
   v_from_client_id payment.from_client_id%type := 1;
@@ -56,12 +56,11 @@ end;
 /
 -- Перевод платежа в ошибочный статус с описанием причины
 declare
-  v_payment_id  payment.payment_id%type := 13;
+  v_payment_id  payment.payment_id%type := 25;
   v_message varchar2(200 char) := 'Сброс платежа в "ошибочный статус" с указанием причины';
   v_reason payment.status_change_reason%type := 'недостаточно средств';
   c_error_status constant payment.status%type := 2;
   v_current_dtime date := sysdate;
-  v_current_status payment.status%type;
 begin
   if v_payment_id is null then
     dbms_output.put_line ('ID объекта не может быть пустым');
@@ -70,22 +69,19 @@ begin
   if v_reason is null then
     dbms_output.put_line ('Причина не может быть пустой');
   end if;
-  
-  --найдем текущий статус платежа
-  select p.status into v_current_status
-  from payment p 
-  where p.payment_id = v_payment_id;
  
-  --если статус - создан, то производим обновление статуса
-  if v_current_status = 0 then
-    --обновление статуса платежа
-    update payment p 
-    set p.status = c_error_status,
-        p.status_change_reason  = v_reason
-    where p.payment_id = v_payment_id;
-	 
+  --обновление статуса платежа
+  update payment p 
+  set p.status = c_error_status,
+      p.status_change_reason  = v_reason
+  where p.payment_id = v_payment_id
+    and p.status = 0; 
+     
+  --если было произвенено обновление, выводим информацию
+  if sql%rowcount > 0 then
     dbms_output.put_line (v_message || '. Статус: '|| c_error_status ||'. Причина: ' || v_reason || '. ID: ' || v_payment_id);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
+  --если не было, то выводим информацию об ошибке
   else 
     dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || v_payment_id);
   end if;
@@ -94,12 +90,11 @@ end;
 /
 -- Отмена платежа
 declare
-  v_payment_id  payment.payment_id%type := 13;
+  v_payment_id  payment.payment_id%type := 25;
   v_message varchar2(200 char) := 'Отмена платежа с указанием причины';
   v_reason payment.status_change_reason%type := 'ошибка пользователя';
   c_cancel_status constant payment.status%type := 3;
   v_current_dtime date := sysdate;
-  v_current_status payment.status%type;
 begin
   if v_payment_id is null then
     dbms_output.put_line ('ID объекта не может быть пустым');
@@ -109,21 +104,17 @@ begin
     dbms_output.put_line ('Причина не может быть пустой');
   end if;
  
-  --найдем текущий статус платежа
-  select p.status into v_current_status
-  from payment p 
-  where p.payment_id = v_payment_id;
- 
-  --если статус - создан, то производим обновление статуса
-  if v_current_status = 0 then
-    --обновление статуса платежа
-    update payment p 
-    set p.status = c_cancel_status,
-        p.status_change_reason  = v_reason
-    where p.payment_id = v_payment_id;
-	 
+  update payment p 
+  set p.status = c_cancel_status,
+      p.status_change_reason  = v_reason
+  where p.payment_id = v_payment_id
+    and p.status = 0;
+     
+  --если было произвенено обновление, выводим информацию
+  if sql%rowcount > 0 then
     dbms_output.put_line (v_message || '. Статус: ' || c_cancel_status|| '. Причина: ' || v_reason || '. ID: ' || v_payment_id);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
+  --если не было, то выводим информацию об ошибке
   else 
     dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || v_payment_id);
   end if;
@@ -131,28 +122,23 @@ end;
 /
 -- Завершение платежа
 declare
-  v_payment_id  payment.payment_id%type:= 13;
+  v_payment_id  payment.payment_id%type:= 25;
   v_message varchar2(200 char) := 'Успешное завершение платежа';
   c_success_status constant payment.status%type := 1;
   v_current_dtime date := sysdate;
-  v_current_status payment.status%type;
 begin
   if v_payment_id is null then
     dbms_output.put_line ('ID объекта не может быть пустым');
   end if;
  
-  --найдем текущий статус платежа
-  select p.status into v_current_status
-  from payment p 
-  where p.payment_id = v_payment_id;
+  --обновление статуса платежа
+  update payment p 
+  set p.status = c_success_status
+  where p.payment_id = v_payment_id
+    and p.status = 0;
  
-  --если статус - создан, то производим обновление статуса
-  if v_current_status = 0 then
-    --обновление статуса платежа
-    update payment p 
-    set p.status = c_success_status
-    where p.payment_id = v_payment_id;
-	 
+  --если было произвенено обновление, выводим информацию
+  if sql%rowcount > 0 then
     dbms_output.put_line (v_message || '. Статус: ' || c_success_status);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
   else 
@@ -162,7 +148,7 @@ end;
 /
 -- Добавление или обновление данных платежа
 declare
-  v_payment_id  payment.payment_id%type := 13;
+  v_payment_id  payment.payment_id%type := 25;
   v_message varchar2(200 char) := 'Данные платежа добавлены или обновлены по списку id_поля/значение';
   v_current_dtime timestamp := systimestamp;
   v_payment_detail t_payment_detail_array:= t_payment_detail_array(t_payment_detail(2,'66.250.68.32'),
@@ -209,7 +195,7 @@ end;
 /
 -- Удаление деталей платежа
 declare
-  v_payment_id  payment.payment_id%type := 13;
+  v_payment_id  payment.payment_id%type := 25;
   v_message varchar2(200 char) := 'Детали платежа удалены по списку id_полей';
   v_current_dtime timestamp := systimestamp;
   v_delete_detail_ids t_number_array:= t_number_array(1,3);
