@@ -3,13 +3,13 @@ create or replace package payment_detail_api_pack is
   Автор: Костина Екатерина
   Описание: API для сущностей “Детали платежа” 
   */
-	--сообщения ошибок
+  --сообщения ошибок
   c_error_msg_empty_field_id    constant varchar2(100 char) := 'ID поля не может быть пустым';
   c_error_msg_empty_field_value constant varchar2(100 char) := 'Значение в поле не может быть пустым';
   c_error_msg_empty_collection  constant varchar2(100 char) := 'Коллекция не содержит данных';
   c_error_msg_empty_object_id   constant varchar2(100 char) := 'ID объекта не может быть пустым';
   
-	--коды ошибок
+  --коды ошибок
   c_error_code_invalid_input_parameter constant number(10) := -20101;
  
   -- объекты исключений
