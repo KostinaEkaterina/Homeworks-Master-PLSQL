@@ -1,18 +1,18 @@
 create or replace package body payment_api_pack is
-	/*
-	Автор: Костина Екатерина
-	Описание скрипта: API для сущностей “Платеж” 
-	*/
-	-- Создание платежа
-	function create_payment (p_from_client_id payment.from_client_id%type,
+  /*
+  Автор: Костина Екатерина
+  Описание скрипта: API для сущностей “Платеж” 
+  */
+  -- Создание платежа
+  function create_payment (p_from_client_id payment.from_client_id%type,
                            p_to_client_id payment.to_client_id%type,
                            p_summa payment.summa%type,
                            p_currency_id payment.currency_id%type,
                            p_create_dtime payment.create_dtime%type,
                            p_payment_detail t_payment_detail_array) return payment.payment_id%type
-	is
-	  v_payment_id  payment.payment_id%type;
-	  v_message varchar2(200 char) := 'Платеж создан';
+  is
+    v_payment_id  payment.payment_id%type;
+    v_message varchar2(200 char) := 'Платеж создан';
   begin
     
     if p_payment_detail is not empty then
