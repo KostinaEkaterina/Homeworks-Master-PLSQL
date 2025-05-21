@@ -2,7 +2,7 @@ create or replace package payment_api_pack is
   /*
   Автор: Костина Екатерина
   Описание: API для сущностей “Платеж” 
-  */
+   */
 
   --статусы платежа
   c_new_status constant payment.status%type := 0;
@@ -10,7 +10,7 @@ create or replace package payment_api_pack is
   c_error_status constant payment.status%type := 2;
   c_cancel_status constant payment.status%type := 3;
  
-	--сообщения ошибок
+  --сообщения ошибок
   c_error_msg_empty_field_id    constant varchar2(100 char) := 'ID поля не может быть пустым';
   c_error_msg_empty_field_value constant varchar2(100 char) := 'Значение в поле не может быть пустым';
   c_error_msg_empty_collection  constant varchar2(100 char) := 'Коллекция не содержит данных';
