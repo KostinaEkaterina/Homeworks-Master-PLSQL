@@ -1,7 +1,7 @@
 create or replace package payment_api_pack is
   /*
   Автор: Костина Екатерина
-  Описание: API для сущностей “Платеж” 
+  Описание: API для сущностей “Платеж”  
    */
 
   --статусы платежа
@@ -16,6 +16,15 @@ create or replace package payment_api_pack is
   c_error_msg_empty_collection  constant varchar2(100 char) := 'Коллекция не содержит данных';
   c_error_msg_empty_object_id   constant varchar2(100 char) := 'ID объекта не может быть пустым';
   c_error_msg_empty_reason      constant varchar2(100 char) := 'Причина не может быть пустой';
+  c_error_msg_not_new_status    constant varchar2(100 char) := 'Статус платежа не в статусе "Создан". ID платежа: ';
+ 
+  -- коды ошибок
+  c_error_code_invalid_input_parameter constant number(10) := -20101;
+  c_error_code_invalid_payment_status  constant number(10) := -20102;
+ 
+  -- объекты исключений
+  e_invalid_input_parameter exception;
+  pragma exception_init(e_invalid_input_parameter, c_error_code_invalid_input_parameter);
  
   -- Создание платежа
   function create_payment (p_from_client_id payment.from_client_id%type,
