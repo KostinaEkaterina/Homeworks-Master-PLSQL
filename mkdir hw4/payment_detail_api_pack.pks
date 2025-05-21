@@ -1,7 +1,7 @@
 create or replace package payment_detail_api_pack is
   /*
   Автор: Костина Екатерина
-  Описание: API для сущностей “Детали платежа”
+  Описание: API для сущностей “Детали платежа” 
   */
 	--сообщения ошибок
   c_error_msg_empty_field_id    constant varchar2(100 char) := 'ID поля не может быть пустым';

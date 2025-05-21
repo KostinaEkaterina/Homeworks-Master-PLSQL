@@ -1,7 +1,7 @@
 create or replace package body payment_detail_api_pack is
   /*
   Автор: Костина Екатерина
-  Описание: API для сущностей “Детали платежа”
+  Описание: API для сущностей “Детали платежа” 
   */
 	-- Добавление или обновление данных платежа
 	procedure insert_or_update_payment_detail (p_payment_id payment.payment_id%type,

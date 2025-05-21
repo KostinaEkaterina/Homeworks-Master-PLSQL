@@ -1,7 +1,7 @@
 create or replace package body payment_api_pack is
 	/*
 	Автор: Костина Екатерина
-	Описание скрипта: API для сущностей “Платеж”
+	Описание скрипта: API для сущностей “Платеж” 
 	*/
 	-- Создание платежа
 	function create_payment (p_from_client_id payment.from_client_id%type,
