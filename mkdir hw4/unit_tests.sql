@@ -155,7 +155,7 @@ begin
   raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
 exception
   when payment_api_pack.e_invalid_input_parameter then
-  dbms_output.put_line('Создание платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  dbms_output.put_line('Перевод платежа в ошибочный статус. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
 
@@ -168,7 +168,7 @@ begin
   raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
 exception
   when payment_api_pack.e_invalid_input_parameter then
-  dbms_output.put_line('Создание платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  dbms_output.put_line('Отмена платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
 
@@ -181,7 +181,7 @@ begin
   raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
 exception
   when payment_api_pack.e_invalid_input_parameter then
-  dbms_output.put_line('Создание платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  dbms_output.put_line('Завершение платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
 
@@ -196,7 +196,7 @@ begin
   raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
 exception
   when payment_api_pack.e_invalid_input_parameter then
-  dbms_output.put_line('Создание платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  dbms_output.put_line('Добавление или обновление данных платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
 
@@ -210,6 +210,6 @@ begin
   raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
 exception
   when payment_api_pack.e_invalid_input_parameter then
-  dbms_output.put_line('Создание платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  dbms_output.put_line('Удаление деталей платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
