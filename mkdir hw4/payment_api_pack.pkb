@@ -1,36 +1,65 @@
 create or replace package body payment_api_pack is
+<<<<<<< HEAD
 	/*
 	Автор: Костина Екатерина
 	Описание скрипта: API для сущностей “Платеж”
 	*/
 	-- Создание платежа
 	function create_payment (p_from_client_id payment.from_client_id%type,
+=======
+  /*
+  Автор: Костина Екатерина
+  Описание скрипта: API для сущностей “Платеж” 
+  */
+  -- Создание платежа
+  function create_payment (p_from_client_id payment.from_client_id%type,
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
                            p_to_client_id payment.to_client_id%type,
                            p_summa payment.summa%type,
                            p_currency_id payment.currency_id%type,
                            p_create_dtime payment.create_dtime%type,
                            p_payment_detail t_payment_detail_array) return payment.payment_id%type
+<<<<<<< HEAD
 	is
 	  v_payment_id  payment.payment_id%type;
 	  v_message varchar2(200 char) := 'Платеж создан'; 
 	begin
 	  
+=======
+  is
+    v_payment_id  payment.payment_id%type;
+    v_message varchar2(200 char) := 'Платеж создан';
+  begin
+    
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     if p_payment_detail is not empty then
     
       for i in p_payment_detail.first..p_payment_detail.last loop 
     
         if (p_payment_detail(i).field_id is null) then
+<<<<<<< HEAD
          raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_field_id);
         end if;
     
         if (p_payment_detail(i).field_value is null) then
           raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_field_value);
+=======
+          dbms_output.put_line (c_error_msg_empty_field_id);
+        end if;
+    
+        if (p_payment_detail(i).field_value is null) then
+          dbms_output.put_line (c_error_msg_empty_field_value);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
         end if;
        
       end loop;
      
     else
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_input_parameter,c_error_msg_empty_collection);
+=======
+      dbms_output.put_line (c_error_msg_empty_collection);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
     
     dbms_output.put_line (v_message || '. Статус: ' || c_new_status || '. ID: ' || v_payment_id);
@@ -61,11 +90,19 @@ create or replace package body payment_api_pack is
     v_current_dtime date := sysdate;
   begin
     if p_payment_id is null then
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_object_id);
     end if;
     
     if p_reason is null then
       raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_reason);
+=======
+      dbms_output.put_line (c_error_msg_empty_object_id);
+    end if;
+    
+    if p_reason is null then
+      dbms_output.put_line (c_error_msg_empty_reason);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
    
     --обновление статуса платежа
@@ -81,7 +118,11 @@ create or replace package body payment_api_pack is
       dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
     --если не было, то выводим информацию об ошибке
     else 
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_payment_status, c_error_msg_not_new_status || p_payment_id);
+=======
+      dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || p_payment_id);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
    
   end fail_payment;
@@ -94,11 +135,19 @@ create or replace package body payment_api_pack is
     v_current_dtime date := sysdate;
   begin
     if p_payment_id is null then
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_object_id);
     end if;
     
     if p_reason is null then
       raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_reason);
+=======
+      dbms_output.put_line (c_error_msg_empty_object_id);
+    end if;
+    
+    if p_reason is null then
+      dbms_output.put_line (c_error_msg_empty_reason);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
    
     update payment p 
@@ -113,7 +162,11 @@ create or replace package body payment_api_pack is
       dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
     --если не было, то выводим информацию об ошибке
     else 
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_payment_status, c_error_msg_not_new_status || p_payment_id);
+=======
+      dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || p_payment_id);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
   end cancel_payment;
 
@@ -124,7 +177,11 @@ create or replace package body payment_api_pack is
     v_current_dtime date := sysdate;
   begin
     if p_payment_id is null then
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_input_parameter, c_error_msg_empty_object_id);
+=======
+      dbms_output.put_line (c_error_msg_empty_object_id);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
    
     --обновление статуса платежа
@@ -138,7 +195,11 @@ create or replace package body payment_api_pack is
       dbms_output.put_line (v_message || '. Статус: ' || c_success_status);
       dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss'));
     else 
+<<<<<<< HEAD
       raise_application_error(c_error_code_invalid_payment_status, c_error_msg_not_new_status || p_payment_id);
+=======
+      dbms_output.put_line ('Ошибка. Статус платежа не в статусе "Создан". ID платежа: ' || p_payment_id);
+>>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
     end if;
   end successful_finish_payment;
   
