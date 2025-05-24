@@ -1,11 +1,7 @@
 create or replace package payment_api_pack is
   /*
   Автор: Костина Екатерина
-<<<<<<< HEAD
   Описание: API для сущностей “Платеж”  
-=======
-  Описание: API для сущностей “Платеж” 
->>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
    */
 
   --статусы платежа
@@ -20,7 +16,6 @@ create or replace package payment_api_pack is
   c_error_msg_empty_collection  constant varchar2(100 char) := 'Коллекция не содержит данных';
   c_error_msg_empty_object_id   constant varchar2(100 char) := 'ID объекта не может быть пустым';
   c_error_msg_empty_reason      constant varchar2(100 char) := 'Причина не может быть пустой';
-<<<<<<< HEAD
   c_error_msg_not_new_status    constant varchar2(100 char) := 'Статус платежа не в статусе "Создан". ID платежа: ';
  
   -- коды ошибок
@@ -30,8 +25,6 @@ create or replace package payment_api_pack is
   -- объекты исключений
   e_invalid_input_parameter exception;
   pragma exception_init(e_invalid_input_parameter, c_error_code_invalid_input_parameter);
-=======
->>>>>>> 1c30154d0c829ed1ff94ff70e3293f5d7a07ccf1
  
   -- Создание платежа
   function create_payment (p_from_client_id payment.from_client_id%type,
@@ -44,11 +37,11 @@ create or replace package payment_api_pack is
   -- Перевод платежа в ошибочный статус с описанием причины
   procedure fail_payment (p_payment_id payment.payment_id%type,
                           p_reason payment.status_change_reason%type);
-		
+    
   -- Отмена платежа
   procedure cancel_payment (p_payment_id  payment.payment_id%type,
                             p_reason payment.status_change_reason%type);
-		
+    
   -- Завершение платежа
   procedure successful_finish_payment (p_payment_id payment.payment_id%type);
 
