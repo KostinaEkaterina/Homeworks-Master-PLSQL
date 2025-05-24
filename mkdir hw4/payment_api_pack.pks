@@ -37,11 +37,11 @@ create or replace package payment_api_pack is
   -- Перевод платежа в ошибочный статус с описанием причины
   procedure fail_payment (p_payment_id payment.payment_id%type,
                           p_reason payment.status_change_reason%type);
-		
+    
   -- Отмена платежа
   procedure cancel_payment (p_payment_id  payment.payment_id%type,
                             p_reason payment.status_change_reason%type);
-		
+    
   -- Завершение платежа
   procedure successful_finish_payment (p_payment_id payment.payment_id%type);
 
