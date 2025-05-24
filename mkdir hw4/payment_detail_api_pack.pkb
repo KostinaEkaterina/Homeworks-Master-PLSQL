@@ -3,6 +3,21 @@ create or replace package body payment_detail_api_pack is
   Автор: Костина Екатерина
   Описание: API для сущностей “Детали платежа” 
   */
+  -- признак, выполняется ли изменение через API
+  g_is_api boolean := false;
+ 
+  -- разрешение менять данные
+  procedure allow_changes is
+  begin
+	  g_is_api := true;
+	end;
+  
+  -- запрещаем менять данные
+  procedure disallow_changes is
+  begin
+	  g_is_api := false;
+	end;
+
   -- Добавление или обновление данных платежа
   procedure insert_or_update_payment_detail (p_payment_id payment.payment_id%type,
                                              p_payment_detail t_payment_detail_array)
@@ -35,6 +50,8 @@ create or replace package body payment_detail_api_pack is
     dbms_output.put_line (v_message || '. ID: ' || p_payment_id);
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss.ff'));
    
+    allow_changes();
+   
     merge into payment_detail pd 
     using (select p_payment_id payment_id,
                   value(p).field_id field_id,
@@ -46,8 +63,13 @@ create or replace package body payment_detail_api_pack is
     when not matched then 
       insert (payment_id,field_id,field_value)
       values (n.payment_id, n.field_id, n.field_value);
-                  
-  end;
+     
+    disallow_changes();
+  exception
+    when others then
+      disallow_changes();
+      raise;
+  end insert_or_update_payment_detail;
   
   -- Удаление деталей платежа
   procedure delete_payment_detail (p_payment_id payment.payment_id%type,
@@ -68,12 +90,30 @@ create or replace package body payment_detail_api_pack is
     dbms_output.put_line (to_char(v_current_dtime,'dd.mm.yyyy hh24:mm:ss.ff'));
     dbms_output.put_line ('Количество полей для удаления: ' || p_delete_detail_ids.count());
    
+    allow_changes();
+   
     --удаление деталей платежа
     delete payment_detail pd
     where pd.payment_id = p_payment_id 
       and pd.field_id in (select value(t) 
                           from table (p_delete_detail_ids) t);
+    disallow_changes();
+   
+  exception
+    when others then
+      disallow_changes();
+      raise;
+     
   end delete_payment_detail;
-
+ 
+  -- проверка, вызываемая из триггера
+  procedure is_changes_through_api
+  is
+  begin
+    if not g_is_api then
+      raise_application_error(c_error_code_manual_changes, c_error_msg_manual_changes);
+    end if;
+  end is_changes_through_api;
+ 
 end payment_detail_api_pack;
 /
