@@ -1,21 +1,21 @@
 CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
-	/*
-	Автор: Костина Екатерина
-	Описание скрипта: API для сущностей “Платеж”
-	*/
+  /*
+  Автор: Костина Екатерина
+  Описание скрипта: API для сущностей “Платеж”
+  */
   -- признак, выполняется ли изменение через API
   g_is_api boolean := false;
  
   -- разрешение менять данные
   procedure allow_changes is
   begin
-	  g_is_api := true;
-	end;
+    g_is_api := true;
+  end;
   
   -- запрещаем менять данные
   procedure disallow_changes is
   begin
-	  g_is_api := false;
+    g_is_api := false;
   end;
 
   -- создание платежа

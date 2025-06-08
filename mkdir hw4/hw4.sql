@@ -5,8 +5,8 @@
 -- Создание платежа
 create or replace function create_payment (p_from_client_id payment.from_client_id%type,
                                            p_to_client_id payment.to_client_id%type,
-										   p_summa payment.summa%type,
-										   p_currency_id payment.currency_id%type,
+                       p_summa payment.summa%type,
+                       p_currency_id payment.currency_id%type,
                                            p_payment_detail t_payment_detail_array) return payment.payment_id%type
 is
   v_payment_id  payment.payment_id%type;
@@ -18,15 +18,15 @@ begin
   if p_payment_detail is not empty then
   
     for i in p_payment_detail.first..p_payment_detail.last loop 
-	
+  
       if (p_payment_detail(i).field_id is null) then
         dbms_output.put_line ('ID поля не может быть пустым');
       end if;
-	
+  
       if (p_payment_detail(i).field_value is null) then
         dbms_output.put_line ('Значение в поле не может быть пустым');
       end if;
-		 
+     
     end loop;
    
   else
@@ -161,15 +161,15 @@ begin
   if p_payment_detail is not empty then
   
     for i in p_payment_detail.first..p_payment_detail.last loop 
-	
+  
       if (p_payment_detail(i).field_id is null) then
         dbms_output.put_line ('ID поля не может быть пустым');
       end if;
-	
+  
       if (p_payment_detail(i).field_value is null) then
         dbms_output.put_line ('Значение в поле не может быть пустым');
       end if;
-		 
+     
     end loop;
    
   else
@@ -184,13 +184,13 @@ begin
                 value(p).field_id field_id,
                 value(p).field_value field_value
          from table(p_payment_detail) p ) n
-  	on (pd.payment_id = n.payment_id and pd.field_id = n.field_id)
+    on (pd.payment_id = n.payment_id and pd.field_id = n.field_id)
   when matched then 
     update set pd.field_value = n.field_value
   when not matched then 
     insert (payment_id,field_id,field_value)
     values (n.payment_id, n.field_id, n.field_value);
-  							
+                
 end;
 /
 -- Удаление деталей платежа
