@@ -9,14 +9,14 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_detail_api_pack is
   -- разрешение менять данные
   procedure allow_changes is
   begin
-	  g_is_api := true;
-	end;
+    g_is_api := true;
+  end;
   
   -- запрещаем менять данные
   procedure disallow_changes is
   begin
-	  g_is_api := false;
-	end;
+    g_is_api := false;
+  end;
 
   -- Добавление или обновление данных платежа
   procedure insert_or_update_payment_detail (p_payment_id payment.payment_id%type,
