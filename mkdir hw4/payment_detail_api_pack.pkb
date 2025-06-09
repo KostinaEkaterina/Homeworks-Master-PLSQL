@@ -1,4 +1,4 @@
-CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_detail_api_pack is
+CREATE OR REPLACE package body payment_detail_api_pack is
   /*
   Автор: Костина Екатерина
   Описание: API для сущностей “Детали платежа” 
@@ -45,6 +45,9 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_detail_api_pack is
       raise_application_error(common_pack.c_error_code_empty_collection, common_pack.c_error_msg_empty_collection);
     end if;
    
+    --пытаемся заблокировать платеж
+    payment_api_pack.try_lock_payment(p_payment_id);
+   
     allow_changes();
    
     merge into payment_detail pd 
@@ -78,6 +81,9 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_detail_api_pack is
     if p_delete_detail_ids is empty then
       raise_application_error(common_pack.c_error_code_invalid_input_parameter, common_pack.c_error_msg_empty_collection);
     end if;
+   
+    --пытаемся заблокировать платеж
+    payment_api_pack.try_lock_payment(p_payment_id);
    
     allow_changes();
    

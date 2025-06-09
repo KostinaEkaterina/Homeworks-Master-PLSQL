@@ -1,4 +1,4 @@
-CREATE OR REPLACE package PLSQL14_STUDENT5.payment_detail_api_pack is
+CREATE OR REPLACE package payment_detail_api_pack is
   /*
   Автор: Костина Екатерина
   Описание: API для сущностей “Детали платежа” 
