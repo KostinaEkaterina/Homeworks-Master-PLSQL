@@ -358,3 +358,17 @@ exception
     dbms_output.put_line('Обновление деталей платежа. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
 end;
 /
+
+--12. негативный тест на отсутствие объекта
+declare
+  v_payment_id  payment.payment_id%type := -1;
+  v_reason payment.status_change_reason%type := 'Тестовый перевод в ошибочный статус';
+ begin
+  payment_api_pack.fail_payment (v_payment_id, v_reason);
+  raise_application_error(-20999, 'Unit-тест или API выполнены неверно');
+ exception
+   when common_pack.e_object_notfound then
+     dbms_output.put_line('Объект не найден. Исключение возбуждено успешно. Ошибка: ' || SQLERRM);
+  commit;
+end;
+/
