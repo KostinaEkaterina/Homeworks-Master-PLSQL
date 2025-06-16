@@ -1,4 +1,4 @@
-CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
+CREATE OR REPLACE package body payment_api_pack is
   /*
   Автор: Костина Екатерина
   Описание скрипта: API для сущностей “Платеж”
@@ -63,6 +63,9 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
       raise_application_error(common_pack.c_error_code_invalid_input_parameter, common_pack.c_error_msg_empty_reason);
     end if;
    
+    --пытаемся заблокировать платеж
+    try_lock_payment(p_payment_id);
+    
     allow_changes();
    
     --обновление статуса платежа
@@ -99,6 +102,9 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
       raise_application_error(common_pack.c_error_code_invalid_input_parameter, common_pack.c_error_msg_empty_reason);
     end if;
    
+    --пытаемся заблокировать платеж
+    try_lock_payment(p_payment_id);
+   
     allow_changes();
    
     update payment p 
@@ -127,6 +133,9 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
       raise_application_error(common_pack.c_error_code_invalid_input_parameter, common_pack.c_error_msg_empty_object_id);
     end if;
    
+    --пытаемся заблокировать платеж
+    try_lock_payment(p_payment_id);
+   
     allow_changes();
    
     --обновление статуса платежа
@@ -147,6 +156,27 @@ CREATE OR REPLACE package body PLSQL14_STUDENT5.payment_api_pack is
       raise;
   end successful_finish_payment;
 
+  --блокировка платежа для изменения
+  procedure try_lock_payment (p_payment_id payment.payment_id%type)
+  is
+    v_end_status payment.status%type;
+  begin
+    select t.status into v_end_status
+    from payment t 
+    where t.payment_id = p_payment_id
+    for update nowait;
+   
+    if v_end_status <> c_new_status then
+      raise_application_error(common_pack.c_error_code_final_status, common_pack.c_error_msg_final_status);
+    end if;
+   
+  exception
+    when no_data_found then
+      raise_application_error(common_pack.c_error_code_object_notfound, common_pack.c_error_msg_object_notfound);
+    when common_pack.e_row_locked then
+      raise_application_error(common_pack.c_error_code_object_already_locked, common_pack.c_error_msg_object_already_locked);
+  end try_lock_payment;
+ 
   -- триггеры
   procedure is_changes_through_api
   is
